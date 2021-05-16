@@ -8,7 +8,7 @@ import { Tr } from "@chakra-ui/table";
 import { Thead } from "@chakra-ui/table";
 import { Table } from "@chakra-ui/table";
 
-const table = {
+export const table = {
   "email": [
     "catalina@mail-em.com",
     "camron@mail-em.com",
@@ -23,7 +23,7 @@ export default function ExampleTable() {
   return (
     <Box overflowX="auto" maxW="80vw">
       <Table size="sm">
-        <TableCaption placement="top">Sample spreadsheet</TableCaption>
+        {/* <TableCaption placement="top">Sample spreadsheet</TableCaption> */}
         <Thead>
           <Tr>
             {Object.keys(table).map(v => <Th key={v}>{v}</Th>)}

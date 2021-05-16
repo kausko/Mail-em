@@ -5,39 +5,60 @@ import Image from 'next/image';
 import { useState } from "react";
 import { signIn } from "next-auth/client";
 import { SimpleGrid } from "@chakra-ui/layout";
+import { useRouter } from 'next/router'
+import { EmailIcon } from "@chakra-ui/icons";
+import { useDisclosure } from "@chakra-ui/hooks";
+import Warning from "./Warning";
 
-export default function Landing() {
+export default function Landing({ session }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(false)
+  const router = useRouter();
+
   const handleSignIn = () => {
+    onClose()
     setLoading(true)
     return signIn("google")
   }
-  return(
+
+  const getStarted = () => router.push("/mail")
+
+  return (
     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} padding={4}>
-    <Image
-      src="/landing.svg"
-      alt="Landing vector"
-      width="1000"
-      height="841.56"
-      layout="intrinsic"
-    />
+      <Image
+        src="/landing.svg"
+        alt="Landing vector"
+        width="1000"
+        height="841.56"
+        layout="intrinsic"
+      />
       <VStack spacing={8} justify="center">
-      <Heading fontSize={{ base: "2xl", md: "4xl" }}>
-        Make. Modify. Mail.
+        <Heading fontSize={{ base: "2xl", md: "4xl" }}>
+          Make. Modify. Mail.
       </Heading>
-      <Heading size="md" fontWeight="hairline" align="center">
-        In 3 steps, send personalized emails (with custom images) in bulk to everyone in your contact list!
+        <Heading size="md" fontWeight="hairline" align="center">
+          In 3 steps, mail-merge with personalized images faster than ever before.
       </Heading>
-      <Button 
-        variant="outline" 
-        leftIcon={<FcGoogle/>}
-        isLoading={loading}
-        loadingText="Signing in"
-        onClick={handleSignIn}
-      >
-        Sign in with Google
-      </Button>
-    </VStack>
+        {session
+          ?
+          <Button
+            leftIcon={<EmailIcon/>}
+            onClick={getStarted}
+          >
+            Get Started
+          </Button>
+          :
+          <Button
+            leftIcon={<FcGoogle />}
+            isLoading={loading}
+            loadingText="Signing in"
+            onClick={onOpen}
+          >
+            Sign in with Google
+          </Button>
+        }
+        <Warning {...{ isOpen, onClose, handleSignIn}}/>
+      </VStack>
     </SimpleGrid>
   )
 }

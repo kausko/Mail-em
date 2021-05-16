@@ -1,5 +1,7 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { Provider } from 'next-auth/client';
+import Head from 'next/head'
+import Navbar from '../components/Navbar';
 
 const theme = extendTheme({
   config: {
@@ -7,11 +9,14 @@ const theme = extendTheme({
   }
 });
 
-function MyApp({ Component, pageProps }) {
+function MyApp(props) {
   return (
     <ChakraProvider resetCSS theme={theme}>
-      <Provider session={pageProps.session}>
-        <Component {...pageProps} />
+      <Head>
+        <title>Mail-em</title>
+      </Head>
+      <Provider session={props.pageProps.session}>
+        <Navbar {...props}/>
       </Provider>
     </ChakraProvider>
   )

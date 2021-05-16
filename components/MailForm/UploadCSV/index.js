@@ -1,25 +1,30 @@
-import { IconButton } from "@chakra-ui/button";
 import { AddIcon } from "@chakra-ui/icons";
-import { HStack } from "@chakra-ui/layout";
-import { Spacer } from "@chakra-ui/layout";
-import { VStack } from "@chakra-ui/layout";
-import { Text } from "@chakra-ui/layout";
-import { Heading } from "@chakra-ui/layout";
-import { Flex } from "@chakra-ui/layout";
 import { useRef } from "react";
 import { CSVReader } from "react-papaparse";
 import ExampleTable from "./ExampleTable";
 import { SiGooglesheets } from "react-icons/si";
 import { useToast } from "@chakra-ui/toast";
-import { Button } from "@chakra-ui/button";
+import { Button, IconButton } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
-import { Collapse } from "@chakra-ui/transition";
+import { Tag } from "@chakra-ui/tag";
+import { TagLeftIcon } from "@chakra-ui/tag";
+import { TagLabel } from "@chakra-ui/tag";
+import { Modal } from "@chakra-ui/modal";
+import { ModalOverlay } from "@chakra-ui/modal";
+import { ModalContent } from "@chakra-ui/modal";
+import { ModalCloseButton } from "@chakra-ui/modal";
+import { ModalBody } from "@chakra-ui/modal";
+import { ModalHeader } from "@chakra-ui/modal";
+import { ModalFooter } from "@chakra-ui/modal";
+import { Wrap } from "@chakra-ui/layout";
+import { ButtonGroup } from "@chakra-ui/button";
+import { WrapItem } from "@chakra-ui/layout";
 /**
  * @param  {object} param
  * @param  {import("react").Dispatch<import("react").SetStateAction<any[]>>} param.setCSVData
  */
 export default function UploadCSV({ setCSVData }) {
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const csvref = useRef(null);
   const toast = useToast()
 
@@ -29,7 +34,6 @@ export default function UploadCSV({ setCSVData }) {
   }
 
   const handleFileLoad = data => {
-    console.log(data)
     setCSVData(data)
   }
 
@@ -43,21 +47,15 @@ export default function UploadCSV({ setCSVData }) {
   }
 
   return (
-    <>
-      <Flex w="100%">
-        <VStack align="start">
-          <Heading>2. Recepient Information</Heading>
-          <Button
-            variant="link"
-            fontSize={{ base: "x-small", sm: "initial" }}
-            onClick={onToggle}
-          >
-            <u>A spreadsheet with user information</u>
-        </Button>
-        </VStack>
-        <Spacer />
+    <Wrap>
+      <WrapItem>
+        <ButtonGroup isAttached>
+          <Button variant="solid" onClick={onOpen}>2. Recepient information</Button>
+          <IconButton icon={<AddIcon />} onClick={handleOpenDialog}/>
+        </ButtonGroup>
+      </WrapItem>
+      <WrapItem>
         <CSVReader
-          accept="text/csv"
           ref={csvref}
           onFileLoad={handleFileLoad}
           onError={handleError}
@@ -67,16 +65,26 @@ export default function UploadCSV({ setCSVData }) {
           noProgressBar
         >
           {({ file }) =>
-            <VStack align="flex-end">
-              <IconButton icon={file?.name ? <SiGooglesheets color="#34A853" /> : <AddIcon />} size="lg" onClick={handleOpenDialog} />
-              {file?.name && <Text align="right">{file?.name}</Text>}
-            </VStack>
+            file?.name ?
+            <Tag>
+              <TagLeftIcon as={SiGooglesheets} color="#34A853"/>
+              <TagLabel>{file?.name}</TagLabel>
+            </Tag> :
+            <></>
           }
         </CSVReader>
-      </Flex>
-      <Collapse in={isOpen} animateOpacity>
-        <ExampleTable />
-      </Collapse>
-    </>
+      </WrapItem>
+      <Modal {...{ isOpen, onClose, isCentered: true }}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Sample spreadsheet</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <ExampleTable />
+          </ModalBody>
+          <ModalFooter />
+        </ModalContent>
+      </Modal>
+    </Wrap>
   )
 }

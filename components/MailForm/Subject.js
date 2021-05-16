@@ -1,7 +1,7 @@
+import { FormLabel } from "@chakra-ui/form-control";
+import { FormHelperText } from "@chakra-ui/form-control";
+import { FormControl } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { Spacer } from "@chakra-ui/layout";
-import { Heading } from "@chakra-ui/layout";
-import { HStack } from "@chakra-ui/layout";
 /**
  * @param  {object} param
  * @param  {string} param.subject
@@ -12,17 +12,15 @@ export default function Subject({ subject, setSubject }) {
   const handleChange = e => setSubject(e.target.value);
   
   return(
-    <HStack w="100%" spacing={4}>
-      <Heading>1. Subject</Heading>
+    <FormControl id="subject">
+      <FormLabel>1. Subject</FormLabel>
       <Input 
         value={subject} 
         placeholder="Enter subject here"
         onChange={handleChange}
-        size="lg"
-        variant="unstyled"
         autoFocus
-        w="70%" 
       />
-    </HStack>
+      <FormHelperText>The subject can also contain variables</FormHelperText>
+    </FormControl>
   )
 }

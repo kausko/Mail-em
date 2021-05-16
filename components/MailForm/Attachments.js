@@ -1,17 +1,17 @@
+import { ButtonGroup } from "@chakra-ui/button";
+import { Button } from "@chakra-ui/button";
 import { IconButton } from "@chakra-ui/button";
 import { AddIcon, AttachmentIcon } from "@chakra-ui/icons";
-import { Heading } from "@chakra-ui/layout";
-import { Text } from "@chakra-ui/layout";
-import { HStack } from "@chakra-ui/layout";
-import { Spacer } from "@chakra-ui/layout";
-import { VStack } from "@chakra-ui/layout";
-import { Flex } from "@chakra-ui/layout";
+import { WrapItem } from "@chakra-ui/layout";
+import { Wrap } from "@chakra-ui/layout";
+import { Tag } from "@chakra-ui/tag";
+import { Tooltip } from "@chakra-ui/tooltip";
 import { nullifyEventValue } from "../../utils";
 
 /**
  * @param  {object} param
- * @param  {[]} param.attachments
- * @param  {import("react").Dispatch<import("react").SetStateAction<any[]>>} param.setAttachments 
+ * @param  {FileList} param.attachments
+ * @param  {import("react").Dispatch<import("react").SetStateAction<FileList>>} param.setAttachments 
  */
 export default function Attachments({ attachments, setAttachments }) {
 
@@ -19,33 +19,51 @@ export default function Attachments({ attachments, setAttachments }) {
     setAttachments(e.target.files)
   }
 
-  return(
-    <Flex w="100%">
-      <VStack align="start">
-        <Heading>4. Upload Attachments</Heading>
-        <Text fontSize={{ base: "x-small", sm: "initial" }}>All svg files will be treated as customizable assets, and they will be scanned for variables</Text>
-      </VStack>
-      <Spacer/>
-      <VStack align="flex-end">
-        <input
-          type="file"
-          accept="*"
-          name="attachments-input"
-          id="attachments-input"
-          style={{ display: 'none' }}
-          onChange={handleChange}
-          onClick={nullifyEventValue}
-          multiple
-        />
-        <label htmlFor="attachments-input">
-          <IconButton
-            as="span"
-            icon={attachments.length ? <AttachmentIcon color="green.500"/> : <AddIcon/>}
-            size="lg"
+  return (
+    <Wrap>
+      <WrapItem>
+        <ButtonGroup isAttached>
+          <Tooltip
+            label="All svg files will be treated as customizable assets, and they will be scanned for variables"
+            aria-label="Attachment tooltip"
+          >
+            <Button 
+              variant="solid" 
+              cursor="default"
+              borderTopRightRadius={0} 
+              borderBottomRightRadius={0}
+            >
+              4. Upload Attachments
+            </Button>
+          </Tooltip>
+          <input
+            type="file"
+            accept="*"
+            name="attachments-input"
+            id="attachments-input"
+            style={{ display: 'none' }}
+            onChange={handleChange}
+            onClick={nullifyEventValue}
+            multiple
           />
-        </label>
-        <Text align="right">{ attachments.length } files attached</Text>
-      </VStack>
-    </Flex>
+          <label htmlFor="attachments-input">
+            <IconButton
+              as="span"
+              cursor="pointer"
+              icon={<AddIcon />}
+              borderTopLeftRadius={0}
+              borderBottomLeftRadius={0}
+            />
+          </label>
+        </ButtonGroup>
+      </WrapItem>
+      {
+        Array.from(attachments).map((v, i) =>
+          <WrapItem key={i}>
+            <Tag key={i}>{v.name}</Tag>
+          </WrapItem>
+        )
+      }
+    </Wrap>
   )
 }
