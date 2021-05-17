@@ -34,7 +34,7 @@ export default function Help() {
       <VStack align="flex-start">
         <Heading>3. Upload Attachments</Heading>
         <Text>
-          All attachments accepted by Gmail can be uploaded. SVG files can be used as templates by adding variables in the code.
+          All constraints and limits setup by Gmail are applicable. SVG files can be used as templates by adding variables in the code.
         </Text>
         <Text>
           PRO TIP: Presentation programs like PowerPoint, Slides, Keynote, etc. support exporting slides as SVG files.
