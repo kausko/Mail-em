@@ -24,9 +24,9 @@ export default function Help() {
 			padding={8}
 		>
 			<VStack align="flex-start">
-				<Heading>1. Upload Recepient Information</Heading>
+				<Heading>1. Upload Recipient Information</Heading>
 				<Text>
-					Upload a spreadsheet containing the recepient information
+					Upload a spreadsheet containing the recipient information
 					that you intend to use in the email content. All the column
 					headers in the spreadsheet can be used as variables in the
 					email's `Subject`, `Content` and `SVG attachments`.

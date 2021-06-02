@@ -53,7 +53,7 @@ export default function UploadCSV({ setCSVData }) {
 			<WrapItem>
 				<ButtonGroup isAttached>
 					<Button variant="solid" onClick={onOpen}>
-						2. Recepient information
+						2. Recipient information
 					</Button>
 					<IconButton icon={<AddIcon />} onClick={handleOpenDialog} />
 				</ButtonGroup>

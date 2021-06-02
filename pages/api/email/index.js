@@ -84,7 +84,7 @@ export default async function handler(req, res) {
 	let messages = []
 
 	CSVData.forEach(({ data }) => {
-		if (!data.to && !data.bcc && !data.cc) throw "Missing Recepient Address"
+		if (!data.to && !data.bcc && !data.cc) throw "Missing Recipient Address"
 		messages.push({
 			from: session.user.email,
 			subject: repl(subject, data),

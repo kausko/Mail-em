@@ -2,9 +2,9 @@
 A simple web app to perform fast and hassle-free mail-merge with personalized image support.
 
 ## Usage
-### 1. Upload recepient information
+### 1. Upload recipient information
    
-Upload a spreadsheet containing the recepient information that you intend to use in the email content. All the column headers in the spreadsheet can be used as variables in the email's `subject`, `content` and `SVG attachments`. Example:
+Upload a spreadsheet containing the recipient information that you intend to use in the email content. All the column headers in the spreadsheet can be used as variables in the email's `subject`, `content` and `SVG attachments`. Example:
 
 | to/cc/bcc           | name     | score |
 | ------------------- | -------- | ----- |
